@@ -35,7 +35,7 @@ An interactive, grid-based visualizer for four graph-search algorithms — **Dij
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # 18 tests: heap, algorithms, maze
+npm test           # 23 tests: heap, algorithms, exploration order, maze
 npm run build      # production build in dist/
 ```
 
@@ -49,7 +49,7 @@ src/
   components/        Sidebar  GridCanvas  InfoPanel  StatsPanel  ComparePanel  Legend
   App.jsx            state, animation loop, editing, shortcuts
   constants.js       grid size, colours, speeds
-tests/               minHeap.test.js  algorithms.test.js  maze.test.js
+tests/               minHeap.test.js  algorithms.test.js  order.test.js  maze.test.js
 docs/INTERVIEW_GUIDE.md   full explanation + likely interview questions
 ```
 

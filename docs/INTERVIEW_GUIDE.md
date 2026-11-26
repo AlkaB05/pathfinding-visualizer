@@ -226,13 +226,18 @@ Properties:
 
 ## 9. Testing — `npm test`
 
-18 Vitest tests in `tests/`:
+23 Vitest tests in `tests/`:
 
 - **MinHeap:** pops 500 values in sorted order (heap sort), custom comparator, empty heap.
 - **Open grid:** every algorithm returns a valid path; BFS/Dijkstra/A\* length = Manhattan distance; A\* visits fewer nodes than Dijkstra.
 - **Weights:** a hand-built board where the short route is weighted — Dijkstra and A\* take the cheaper detour (cost 10), BFS takes the 6-step route (cost 18).
 - **Unreachable:** all four report no path.
 - **Randomised cross-check on 200 boards** (seeded RNG, 28% walls, 15% weights): A\* cost always equals Dijkstra's; BFS is never cheaper than Dijkstra and never longer in steps; every returned path is valid and connected.
+- **Exploration order** (`order.test.js`, 150 random weighted boards per algorithm), checked against distances computed independently:
+  - BFS visits cells in non-decreasing step distance;
+  - Dijkstra visits in non-decreasing weighted distance, each cell once, and expands everything closer than the target first;
+  - A\* visits in non-decreasing `f = g + h` and never expands a cell with `f` above the optimal cost (this is what "A\* is optimally efficient" means);
+  - DFS follows true recursive depth-first order: every visit is the first unvisited neighbour (up, right, down, left) of the deepest cell on the current path.
 - **Maze:** solid border, every room open, everything connected, `edges = nodes − 1` (no loops), `carveOrder` replays to the same maze.
 
 ---
@@ -315,7 +320,7 @@ Unit tests on known boards, plus a randomised cross-check on 200 seeded boards: 
 - Grid: **25 × 51 = 1,275** cells; weighted cell cost **5**.
 - Empty board, start (row 12, col 10) → target (row 12, col 40): BFS / Dijkstra / A\* path length **30**. Dijkstra and BFS visit **857** nodes, A\* visits **31** (almost a straight line, thanks to tie-breaking on h), DFS visits 305 and returns a **304-step** path.
 - Each algorithm run: about **1 ms** (a few ms the first time, before the JS engine warms up).
-- Tests: **18** passing.
+- Tests: **23** passing.
 - Visited-cell fade: **650 ms**. Animation: ~60 fps via `requestAnimationFrame`.
 
 ## 13. A 2-minute demo script
